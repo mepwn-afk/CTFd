@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: ctfd
+    runtime: docker
+    dockerfilePath: Dockerfile
+    env: docker
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ctfd-db
+          property: connectionString
+      - key: UPLOAD_PROVIDER
+        value: filesystem
+    numInstances: 1
+    healthCheckPath: /
+
+databases:
+  - name: ctfd-db
+    plan: free
+    databaseName: ctfd
+    user: ctfd
